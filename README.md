@@ -16,10 +16,16 @@ The **smart contract** is designed to give the user the **control of his own inf
 - Ganache or your private network
 - Metamask: not mandatory but better if you want to register more users
 
-# Quick Installation
-1) Download the project and decompress it into the folder **~/ethereum-vuejs-dapp** (or wherever you want).
-2) Start ganache (or your private blockchain).
-3) Open the terminal (if you are using Windows you **must use the Power Shell**) in the folder **~/ethereum-vuejs-dapp** and run the command:
+# Quick Installation WSL
+
+1) sudo npm install truffle -g
+   git clone git@github.com:catman85/ethereum-vuejs-dapp.git. 
+   cd ethereum-vuejs-dapp/
+2) Start ganache UI for windows.
+   click the little settings icon on the right.
+   go to workspace and add your truffle project. (ethereum-vuejs-dapp/truffle.js)
+   save and reload the workspace.
+3) Open the terminal in the folder **ethereum-vuejs-dapp/** and run the command:
 ```sh
 $ truffle console --network ganache
 ```
@@ -28,7 +34,7 @@ $ truffle console --network ganache
 > migrate --reset --compile-all
 ```
 5) If the migration was successful, copy the file **~/ethereum-vuejs-dapp/build/contracts/Users.json** into the folder **~/ethereum-vuejs-dapp/app-users/src/assets/**
-6) Open another terminal in the folder **~/ethereum-vuejs-dapp/app-users** and run the command:
+6) Open another terminal in the folder **ethereum-vuejs-dapp/app-users** and run the command (without sudo):
 ```sh
 $ npm install
 ```

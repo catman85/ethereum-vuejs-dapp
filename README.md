@@ -18,16 +18,23 @@ The **smart contract** is designed to give the user the **control of his own inf
 
 # Quick Installation WSL
 
-1) sudo npm install truffle -g
+1) ```sh
+   sudo npm install truffle -g
    git clone git@github.com:catman85/ethereum-vuejs-dapp.git. 
    cd ethereum-vuejs-dapp/
+   ```
+   
 2) Start ganache UI for windows.
+
    click the little settings icon on the right.
+   
    go to workspace and add your truffle project. (ethereum-vuejs-dapp/truffle.js)
+   
    save and reload the workspace.
+   
 3) Open the terminal in the folder **ethereum-vuejs-dapp/** and run the command:
 ```sh
-$ truffle console --network ganache
+truffle console --network ganache
 ```
 4) If ganache is running you should be inside the truffle console; now run the following command in the truffle console:
 ```sh
@@ -36,11 +43,11 @@ $ truffle console --network ganache
 5) If the migration was successful, copy the file **~/ethereum-vuejs-dapp/build/contracts/Users.json** into the folder **~/ethereum-vuejs-dapp/app-users/src/assets/**
 6) Open another terminal in the folder **ethereum-vuejs-dapp/app-users** and run the command (without sudo):
 ```sh
-$ npm install
+npm install
 ```
 7) Once all the dependencies are installed run the command:
 ```sh
-$ npm run dev
+npm run dev
 ```
 If everything went fine, the terminal will display a message similar to:
 ```sh

@@ -20,7 +20,7 @@ The **smart contract** is designed to give the user the **control of his own inf
 
 1) ```sh
    sudo npm install truffle -g
-   git clone git@github.com:catman85/ethereum-vuejs-dapp.git. 
+   git clone git@github.com:catman85/ethereum-vuejs-dapp.git 
    cd ethereum-vuejs-dapp/
    ```
    
@@ -47,7 +47,7 @@ npm install
 ```
 7) Once all the dependencies are installed run the command:
 ```sh
-npm run dev
+npm run serve
 ```
 If everything went fine, the terminal will display a message similar to:
 ```sh

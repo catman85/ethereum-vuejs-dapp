@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 
 contract Degrees {
     address private owner;
-    uint private k;// the required amount of signatures to be considered a graduate
+    uint private k = 2;// the required amount of signatures to be considered a graduate
 
     // the string will be the hash of the graduates info
     mapping(string => Professor[]) public graduates;
@@ -40,8 +40,9 @@ contract Degrees {
 
     constructor() public {
         owner = msg.sender;
-        addProf(address(0x000001),"mf");
-        addProf(address(0x000002),"kanatas");
+        addProf(address(0x4B0897b0513fdC7C541B6d9D7E929C4e5364D2dB),"mf");
+        addProf(address(0x583031D1113aD414F02576BD6afaBfb302140225),"kanatas");
+        addProf(address(0x14723A09ACff6D2A60DcdF7aA4AFf308FDDC160C),"xenakis");
     }
 
     // this function must only be called at the contract's creation
@@ -57,7 +58,10 @@ contract Degrees {
         emit newProfessorRegistered(p.id);
     }
 
-    function verifyGraduation(string memory _hash) public returns(bool){
+    //In Solidity constant functions are functions, that are promised not to modify the state.
+    //view can be considered as the subset of constant that will read the storage(hence viewing).
+    //pure can be considered as the subset of constant where the return value will only be determined by it's parameters(input values) .
+    function verifyGraduation(string memory _hash) public view returns(bool){
         Professor[] memory approvals = graduates[_hash];
         if(approvals.length >= k){
             return true;
@@ -71,7 +75,7 @@ contract Degrees {
         graduates[hash].push(professors[uint(index)]);
     }
 
-    function getProfessorIndex() public isProf returns(int){
+    function getProfessorIndex() public view isProf returns(int){
         for(uint i = 0; i<professors.length; i++){
             if(professors[i].profAddress == msg.sender){
                 return int(i);

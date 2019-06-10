@@ -10,7 +10,7 @@ https://www.danielefavi.com/create-your-blockchain-dapp-with-ethereum-and-vuejs/
 npm install
 
 # serve with hot reload at localhost:8080
-npm run dev
+npm run serve
 
 # build for production with minification
 npm run build

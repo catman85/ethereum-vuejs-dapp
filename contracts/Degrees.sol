@@ -18,6 +18,12 @@ contract Degrees {
 
     event newProfessorRegistered(uint id);
 
+    // indexed allows a student to filter events to a certain hash (his own)
+    event newGraduateSignature(
+        string indexed _hash,
+        string _name
+        );
+
     // _; tells us where the body of the caller function will be injected
     modifier isOwner() {
         require(msg.sender == owner, "You are not the contract's owner");
@@ -69,10 +75,12 @@ contract Degrees {
         return false;
     }
 
-    function signGraduation(string memory hash) public isProf{
+    //external functions can only be called outside the contract
+    function signGraduation(string calldata hash) external isProf{
         int index = getProfessorIndex();
         require(index>=0,"Only Professors can sign graduations");
         graduates[hash].push(professors[uint(index)]);
+        emit newGraduateSignature(hash,professors[uint(index)].name);
     }
 
     function getProfessorIndex() public view isProf returns(int){

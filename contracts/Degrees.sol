@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.5;
 
 contract Degrees {
     address private owner;
@@ -17,6 +17,10 @@ contract Degrees {
     }
 
     event newProfessorRegistered(uint id);
+
+    event profAttemptedToSignMoreThanOnce(
+        string _name
+        );
 
     // indexed allows a student to filter events to a certain hash (his own)
     event newGraduateSignature(
@@ -44,7 +48,7 @@ contract Degrees {
         _;
     }
 
-    constructor() public {
+    constructor() public{
         owner = msg.sender;
         addProf(address(0x4B0897b0513fdC7C541B6d9D7E929C4e5364D2dB),"mf");
         addProf(address(0x583031D1113aD414F02576BD6afaBfb302140225),"kanatas");
@@ -77,10 +81,11 @@ contract Degrees {
 
     //external functions can only be called outside the contract
     function signGraduation(string calldata hash) external isProf{
-        int index = getProfessorIndex();
-        require(index>=0,"Only Professors can sign graduations");
-        graduates[hash].push(professors[uint(index)]);
-        emit newGraduateSignature(hash,professors[uint(index)].name);
+        int profIndex = getProfessorIndex();
+        require(hasntAlreadySigned(profIndex,hash),"Professor attempted to sign more than once");
+        require(profIndex>=0,"Only Professors can sign graduations");
+        graduates[hash].push(professors[uint(profIndex)]);
+        emit newGraduateSignature(hash,professors[uint(profIndex)].name);
     }
 
     function getProfessorIndex() public view isProf returns(int){
@@ -90,5 +95,21 @@ contract Degrees {
             }
         }
         return -1;
+    }
+
+    // public - all can access
+    // external - Cannot be accessed internally, only externally
+    // internal - only this contract and contracts deriving from it can access
+    // private - can be accessed only from this contract
+    function hasntAlreadySigned(int _profIndex, string memory _hash) internal view returns(bool){
+        Professor memory prof = professors[uint(_profIndex)];
+        Professor[] memory approvals = graduates[_hash];
+        for(uint i = 0; i<approvals.length; i++){
+            if(approvals[i].profAddress == prof.profAddress){
+                // emit profAttemptedToSignMoreThanOnce(prof.name);
+                return false;
+            }
+        }
+        return true;
     }
 }

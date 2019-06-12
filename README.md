@@ -76,5 +76,12 @@ truffle console --network ganache
 >instance.verifyGraduation("a")
 ```
 
+# To run tests
+fire up ganache and then,
+
+```sh
+truffle console --network ganache
+> test --reset-all
+```
 
 Visit [DanieleFavi.com](https://www.danielefavi.com/create-your-blockchain-dapp-with-ethereum-and-vuejs/) for more info.

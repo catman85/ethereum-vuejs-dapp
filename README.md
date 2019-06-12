@@ -59,4 +59,22 @@ Your application is running here: http://localhost:8080
 
 **NOTE:** if you want to try to add more user profiles you have to install metamask in your browser, then import the accounts into metamask and finally change account on metamask in order to register a new user.
 
+# To interact with the contract using truffle
+fire up ganache and then,
+
+```sh
+truffle console --network ganache
+>migrate --reset --compile-all
+>let instance = await Degrees.deployed()
+>let accounts = await web3.eth.getAccounts()
+>accounts
+>instance.professors
+>instance.getProfessorIndex({from: accounts[0]})
+>instance.signGraduation("a",{from: accounts[0]})
+>instance.verifyGraduation("a") 
+>instance.signGraduation("a",{from: accounts[1]})
+>instance.verifyGraduation("a")
+```
+
+
 Visit [DanieleFavi.com](https://www.danielefavi.com/create-your-blockchain-dapp-with-ethereum-and-vuejs/) for more info.

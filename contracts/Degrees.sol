@@ -1,12 +1,25 @@
 pragma solidity ^0.5.5;
 
+//In Solidity constant functions are functions, that are promised not to modify the state.
+//view can be considered as the subset of constant that will read the storage(hence viewing).
+//pure can be considered as the subset of constant where the return value will only be determined by it's parameters(input values).
+//pure is more restrictive than view.
+
+// public - all can access
+// external - Cannot be accessed internally, only externally
+// internal - only this contract and contracts deriving from it can access
+// private - can be accessed only from this contract
+
 contract Degrees {
     address private owner;
     uint private k = 2;// the required amount of signatures to be considered a graduate
 
     // the string will be the hash of the graduates info
-    mapping(string => Professor[]) public graduates;
-    // mapping(address => Professor) public professors;
+    // uint[] is an array of professor's indexes that signed the graduation of a give student.
+    mapping(string => uint[]) public graduates;
+
+    // this version wastes memory and storage for no reason
+    // mapping(string => Professor[]) public graduates;
 
     Professor[] public professors;
 
@@ -16,43 +29,47 @@ contract Degrees {
         uint id;
     }
 
+
+    //- EVENTS -//
     event newProfessorRegistered(uint id);
 
     event profAttemptedToSignMoreThanOnce(
         string _name
         );
 
-    // indexed allows a student to filter events to a certain hash (his own)
     event newGraduateSignature(
-        string indexed _hash,
+        string indexed _hash, // indexed allows a student to filter events to a certain hash (his own)
         string _name
         );
 
-    // _; tells us where the body of the caller function will be injected
+
+    //- MODIFIERS -//
     modifier isOwner() {
         require(msg.sender == owner, "You are not the contract's owner");
-        _;
+        _; // _; tells us where the body of the caller function will be injected
     }
 
     modifier isProf() {
         bool b = false;
         address s = msg.sender;
-
         for(uint8 i = 0; i<professors.length; i++){
             if(professors[i].profAddress == s){
                 b = true;
             }
         }
-
         require(b,"Not a Professor");
         _;
     }
+
+
 
     constructor() public{
         owner = msg.sender;
         addProf(address(0x4B0897b0513fdC7C541B6d9D7E929C4e5364D2dB),"mf");
         addProf(address(0x583031D1113aD414F02576BD6afaBfb302140225),"kanatas");
         addProf(address(0x14723A09ACff6D2A60DcdF7aA4AFf308FDDC160C),"xenakis");
+        addProf(address(0x2CDa5fcb9392126D496596333643020c3Cd42822),"mhliwnhs");
+        addProf(address(0x054a087079B37D7052EF82E237f10E9Bf033645b),"lamprinoudakis");
     }
 
     // this function must only be called at the contract's creation
@@ -68,11 +85,8 @@ contract Degrees {
         emit newProfessorRegistered(p.id);
     }
 
-    //In Solidity constant functions are functions, that are promised not to modify the state.
-    //view can be considered as the subset of constant that will read the storage(hence viewing).
-    //pure can be considered as the subset of constant where the return value will only be determined by it's parameters(input values) .
     function verifyGraduation(string memory _hash) public view returns(bool){
-        Professor[] memory approvals = graduates[_hash];
+        uint[] memory approvals = graduates[_hash];
         if(approvals.length >= k){
             return true;
         }
@@ -84,7 +98,7 @@ contract Degrees {
         int profIndex = getProfessorIndex();
         require(hasntAlreadySigned(profIndex,hash),"Professor attempted to sign more than once");
         require(profIndex>=0,"Only Professors can sign graduations");
-        graduates[hash].push(professors[uint(profIndex)]);
+        graduates[hash].push(uint(profIndex));
         emit newGraduateSignature(hash,professors[uint(profIndex)].name);
     }
 
@@ -97,15 +111,10 @@ contract Degrees {
         return -1;
     }
 
-    // public - all can access
-    // external - Cannot be accessed internally, only externally
-    // internal - only this contract and contracts deriving from it can access
-    // private - can be accessed only from this contract
     function hasntAlreadySigned(int _profIndex, string memory _hash) internal view returns(bool){
-        Professor memory prof = professors[uint(_profIndex)];
-        Professor[] memory approvals = graduates[_hash];
+        uint[] memory approvals = graduates[_hash];
         for(uint i = 0; i<approvals.length; i++){
-            if(approvals[i].profAddress == prof.profAddress){
+            if(approvals[i] == uint(_profIndex)){
                 // emit profAttemptedToSignMoreThanOnce(prof.name);
                 return false;
             }

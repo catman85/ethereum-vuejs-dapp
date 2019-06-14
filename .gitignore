@@ -1,3 +1,4 @@
 /build
 /app-users/node_modules
+/app-users/build
 /app-users/package-lock.json

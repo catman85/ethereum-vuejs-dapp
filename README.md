@@ -103,3 +103,6 @@ It is very convenient to share the same accounts in Ganache/MetaMask from multip
 4) Save your Workspace and launch it.
 5) finally run ``` truffle console --network ganache ``` and you should be inside the truffle console.
 6) When developing from a new machine, follow the same steps from 1.
+
+
+**NOTE** the /app-users/build/ directory is needed for ``` npm install && npm run serve```

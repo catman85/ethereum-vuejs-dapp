@@ -65,11 +65,11 @@ contract Degrees {
 
     constructor() public{
         owner = msg.sender;
-        addProf(address(0x4B0897b0513fdC7C541B6d9D7E929C4e5364D2dB),"mf");
-        addProf(address(0x583031D1113aD414F02576BD6afaBfb302140225),"kanatas");
-        addProf(address(0x14723A09ACff6D2A60DcdF7aA4AFf308FDDC160C),"xenakis");
-        addProf(address(0x2CDa5fcb9392126D496596333643020c3Cd42822),"mhliwnhs");
-        addProf(address(0x054a087079B37D7052EF82E237f10E9Bf033645b),"lamprinoudakis");
+        addProf(address(0xD2E2434023C5f1211c535D4d833c8501FA4EF232),"mf");
+        addProf(address(0xDe99efB18F63233A6368f1BdA14f8Dbe3A4E8FEa),"kanatas");
+        addProf(address(0x885772F8CA506B0C3c311e0431C34d9fB08BD271),"xenakis");
+        addProf(address(0x722eDE063ee86EA683D30DD33E9b1195bA424A9c),"mhliwnhs");
+        addProf(address(0xc5850865722794aBe537d88aa40B830Dc1cb9a09),"lamprinoudakis");
     }
 
     // this function must only be called at the contract's creation

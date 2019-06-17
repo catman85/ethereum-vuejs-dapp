@@ -19,4 +19,8 @@ npm run build
 npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+> Don't remove the static/ folder. Node needs this folder. There is a .gitkeep file in there just so that git keeps track of it.
+
+> Don't interact with the build, config, and static directories.
+
+### web3.js <- BcExplorer.js <- MixinViews.js <- *

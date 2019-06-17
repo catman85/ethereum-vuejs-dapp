@@ -36,6 +36,7 @@ class BcExplorer {
             networkId: 0,
             coinbase: null,
             mainAccount:null,
+            Accounts: null,
             balance: 0,
             addressUrl: null
         };
@@ -319,6 +320,28 @@ class BcExplorer {
                     this.info.mainAccount = accounts[0];
 
                     resolve(accounts[0]);
+                }
+            });
+        });
+    }
+
+
+    /**
+     * Return the selected wallet address.
+     *
+     * @return {Promise}
+     */
+    getAccounts() {
+        return new Promise((resolve, reject) => {
+            if (this.info.Accounts) resolve(this.info.Accounts);
+
+            this.web3().eth.getAccounts((error, accounts) => {
+                if (error) {
+                   reject(new Error('BcExplorer error: accounts not available.'))
+                } else {
+                    this.info.Accounts = accounts;
+
+                    resolve(accounts);
                 }
             });
         });

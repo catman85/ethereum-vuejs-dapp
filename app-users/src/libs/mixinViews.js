@@ -1,5 +1,6 @@
 import BcExplorer from './BcExplorer'
-import UsersContract from '../assets/Users.json';
+// import UsersContract from '../assets/Users.json';
+import DegreesContract from '../assets/Degrees.json';
 
 export default {
     data() {
@@ -29,7 +30,7 @@ export default {
                 window.bc = new BcExplorer;
 
                 // connecting to the blockchain and intializing the Users smart contract
-                window.bc.initWithContractJson(UsersContract, 'http://127.0.0.1:7545')
+                window.bc.initWithContractJson(DegreesContract, 'http://127.0.0.1:7545')
                 .then((error) => {
                     // handling the connection error
                     if (error) {
@@ -40,7 +41,7 @@ export default {
                         // calling a smart contract function in order to check the contract address
                         // is correct. NOTE: here you might be connected successfully.
                         // TODO: the check of the smart contract address validity it should be BcExplorer duty
-                        this.isRegistered()
+                        this.getProfessorIndex() // this is a local function
                         .then(res => {
                             this.bcConnectionError = false;
                             this.bcConnected = this.blockchainIsConnected();
@@ -60,17 +61,29 @@ export default {
          *
          * @return {Promise}
          */
-        isRegistered() {
+        getProfessorIndex() { // will always return 0 since we can only use the main account?
             return new Promise((resolve, reject) => {
-                window.bc.getMainAccount()
-                .then(account => {
-                    window.bc.contract().isRegistered({ from: account }, (error, res) => {
+                window.bc.getAccounts()
+                .then(accounts=>{
+                    console.debug(accounts);
+                    window.bc.contract().getProfessorIndex.call({ from: accounts[2] }, (error, res) => {
                         if (error) reject(error);
-
+                        console.debug(res.toNumber());
                         resolve(res);
                     });
                 })
                 .catch(error => reject(error));
+
+                // Original
+                // window.bc.getMainAccount()
+                // .then(mainAccount => {
+                //     window.bc.contract().getProfessorIndex({ from: mainAccount }, (error, res) => {
+                //         if (error) reject(error);
+                //         console.debug(mainAccount);
+                //         resolve(res);
+                //     });
+                // })
+                // .catch(error => reject(error));
             });
         },
 

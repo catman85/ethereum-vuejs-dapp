@@ -66,7 +66,8 @@ export default {
                 window.bc.getAccounts()
                 .then(accounts=>{
                     console.debug(accounts);
-                    window.bc.contract().getProfessorIndex.call({ from: accounts[2] }, (error, res) => {
+                    // accounts[0] is the selected MetaMask address
+                    window.bc.contract().getProfessorIndex.call({ from: accounts[0] }, (error, res) => {
                         if (error) reject(error);
                         console.debug(res.toNumber());
                         resolve(res);

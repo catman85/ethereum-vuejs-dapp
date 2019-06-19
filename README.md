@@ -106,3 +106,27 @@ It is very convenient to share the same accounts in Ganache/MetaMask from multip
 
 
 **NOTE** the /app-users/build/ directory is needed for ``` npm install && npm run serve```
+
+# Connecting MetaMask with Ganache
+0) Open the MetaMask addon and find where it says **Main Ethereum Network**
+1) Click that and select **Custom RPC**
+2) Give your test net a name and now for the important part.
+3) Look at the Ganache GUI, there should be a **RPC Server** indication.
+4) Copy and paste that url to the MetaMask field and refresh your frontend.
+5) Boom, you are connected!
+
+# Development Quickstart 
+Make sure you have installed expect and xterm in your machine.
+```sh
+apt-get install expect xterm
+```
+Make sure the **start.sh** script has execution privilages.
+```sh
+chmod +x start.h
+```
+
+After opening the Ganache GUI, execute:
+
+**./start.sh**
+
+This little script will connect truffle with ganache migrate, test your contracts and run the frontend part of the app.

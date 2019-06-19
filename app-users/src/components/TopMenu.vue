@@ -54,9 +54,10 @@
                         // showing the connected message on the top bar and setting the class too
                         this.connectedClass = 'text-success';
 
-                        this.isRegistered()
-                        .then(res => this.userIsRegistered = res)
-                        .catch(error => console.log(error));
+                        // commented because it through an error
+                        // this.isRegistered()
+                        // .then(res => this.userIsRegistered = res)
+                        // .catch(error => console.log(error));
                     }
                 }, 500);
             },

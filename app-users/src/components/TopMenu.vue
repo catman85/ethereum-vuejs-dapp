@@ -39,6 +39,14 @@
             }
         },
 
+        created() {
+            // when the event userregistered is fired (from the view Register.vue)
+            // it runs the function checkUntilUserIsRegistered
+            Event.$on('userregistered', this.checkUntilUserIsRegistered);
+
+            this.checkUserIsRegistered();
+        },
+        
         methods: {
             /**
              * It checks if the visiting user is regitered calling every 500ms the function isRegistered
@@ -91,14 +99,6 @@
                     }
                 }, 1000);
             }
-        },
-
-        created() {
-            // when the event userregistered is fired (from the view Register.vue)
-            // it runs the function checkUntilUserIsRegistered
-            Event.$on('userregistered', this.checkUntilUserIsRegistered);
-
-            this.checkUserIsRegistered();
         }
     }
 </script>

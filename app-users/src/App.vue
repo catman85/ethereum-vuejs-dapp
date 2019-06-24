@@ -30,6 +30,8 @@
                 <li>The compiled smart contract <b>app-users/src/assets/Users.json</b> is equal to <b>build/Users.json</b>.</li>
             </ul>
         </div>
+        <myfooter></myfooter>
+
     </div>
 </template>
 
@@ -37,9 +39,10 @@
 // importing common function
 import mixin from './libs/mixinViews';
 import TopMenu from './components/TopMenu';
+import myfooter from './components/MyFooter';
 
 export default {
-    components: { TopMenu },
+    components: { TopMenu, myfooter },
     mixins: [mixin],
 
     name: 'App'

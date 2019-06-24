@@ -1,11 +1,11 @@
 <template>
   <div>
-    <button class="btn btn-primary float-right mt-2" @click="reloadList">Reload</button>
-    <h1 class="title">User List</h1>
+    <!-- <button class="btn btn-primary float-right mt-2" @click="reloadList">Reload</button> -->
+    <!-- <h1 class="title">User List</h1> -->
 
     <div class="clearfix"></div>
 
-    <h2 v-show="!bcConnected">Not connect to the blockchain: please wait.</h2>
+    <!-- <h2 v-show="!bcConnected">Not connect to the blockchain: please wait.</h2> -->
 
     <h2 v-show="(isLoading && bcConnected)">Loading...</h2>
 
@@ -58,9 +58,19 @@
       created() {
         // it tries to get the user list from the blockchian once
         // the connection is established
-        this.tmoConn = setInterval(() => {
-          this.getUserList();
-        }, 1000);
+        // this.tmoConn = setInterval(() => {
+          // this.getUserList();
+          // this.checkIfHashIsRegistered("a");
+        // }, 1000);
+        this.checkIfHashIsRegistered("a");
+      },
+      /**
+       * It reloads the user list.
+       */
+      reloadList() {
+        this.users = [];
+
+        this.getUserList();
       },
       /**
        * Get the list of the registered users once the connection to the
@@ -102,16 +112,21 @@
           } // end if
         }); // end totalUsers call
       },
+      checkIfHashIsRegistered(hash) {
+        console.debug(hash);
+        // if (this.blockchainIsConnected()) {
+          console.debug(hash);
+          window.bc.contract().verifyGraduation.call(hash.toAscii(), (error, bool) => {
+            if (error) {
+              console.debug(error);
+              reject(error);
+            }
+            console.debug(bool.toNumber());
+            resolve(bool);
 
-            /**
-       * It reloads the user list.
-       */
-      reloadList() {
-        this.users = [];
-
-        this.getUserList();
+          });
+        // }
       }
-
     }, // end methods
   }
 

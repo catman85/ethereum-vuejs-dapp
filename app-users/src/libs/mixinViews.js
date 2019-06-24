@@ -79,11 +79,15 @@ export default {
                 console.debug(res[1]);
               })
               resolve(res);
-            })
+            });
+            // .catch(error => { // mysterious undefined error
+            //   reject(error)
+            // });
+  
           })
-          .catch(error => {
-            reject(error)
-          });
+          // .catch(error => {
+          //   reject(error)
+          // });
 
         // Original
         // window.bc.getMainAccount()

@@ -8575,12 +8575,12 @@
         }
       },
       "links": {},
-      "address": "0xCaff72ae537C52B277fC6c3295F55Fb36BfC1F7f",
-      "transactionHash": "0x8725b7e1c4def636ff98a12cc336b5ee820124824ea47bf45a57b3c1861b7f7e"
+      "address": "0xca6272c1D8d451e2bFDc6C184582245842E90E95",
+      "transactionHash": "0xf9a9774da5d7afec164912415dada7baf105beadbebba59193f08449beb8e533"
     }
   },
   "schemaVersion": "3.0.10",
-  "updatedAt": "2019-06-17T22:03:01.981Z",
+  "updatedAt": "2019-06-24T23:42:09.225Z",
   "devdoc": {
     "methods": {}
   },

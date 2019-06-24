@@ -1,11 +1,13 @@
 <template>
   <div>
-    <!-- <button class="btn btn-primary float-right mt-2" @click="reloadList">Reload</button> -->
-    <!-- <h1 class="title">User List</h1> -->
+    <button class="btn btn-primary float-right mt-2" @click='reloadList'>Reload</button>
+    <button class="btn btn-primary float-right mt-2" @click='checkIfHashIsRegistered'>verify</button>
+    <button class="btn btn-primary float-right mt-2" @click='signGraduation'>sign</button>
+    <h1 class="title">User List</h1>
 
     <div class="clearfix"></div>
 
-    <!-- <h2 v-show="!bcConnected">Not connect to the blockchain: please wait.</h2> -->
+    <h2 v-show="!bcConnected">Not connect to the blockchain: please wait.</h2>
 
     <h2 v-show="(isLoading && bcConnected)">Loading...</h2>
 
@@ -53,17 +55,16 @@
         tmoConn: null, // contain the intervalID given by setInterval
       }
     },
+    created() {
+      // it tries to get the user list from the blockchian once
+      // the connection is established
+      // this.tmoConn = setInterval(() => {
+      // this.getUserList();
+      // this.checkIfHashIsRegistered("a");
+      // }, 1000);
+    },
 
     methods: {
-      created() {
-        // it tries to get the user list from the blockchian once
-        // the connection is established
-        // this.tmoConn = setInterval(() => {
-          // this.getUserList();
-          // this.checkIfHashIsRegistered("a");
-        // }, 1000);
-        this.checkIfHashIsRegistered("a");
-      },
       /**
        * It reloads the user list.
        */
@@ -112,22 +113,45 @@
           } // end if
         }); // end totalUsers call
       },
-      checkIfHashIsRegistered(hash) {
-        console.debug(hash);
-        // if (this.blockchainIsConnected()) {
-          console.debug(hash);
-          window.bc.contract().verifyGraduation.call(hash.toAscii(), (error, bool) => {
-            if (error) {
+      checkIfHashIsRegistered() {
+        if (this.blockchainIsConnected()) {
+          let hash = "a";
+          // console.debug(hash);
+          window.bc.contract().verifyGraduation.call(hash, (error, bool) => {
+            if(error){
               console.debug(error);
-              reject(error);
             }
-            console.debug(bool.toNumber());
-            resolve(bool);
+              console.debug(bool);
+            })
+            // .catch(error => { // mysterious undefuned error
+            //   reject(error)
+            // });
+        }
+      },
 
-          });
-        // }
-      }
-    }, // end methods
+      signGraduation() {
+      return new Promise((resolve, reject) => {
+        window.bc.getAccounts()
+          .then(accounts => {
+            // console.debug(accounts);
+            // accounts[0] is the selected MetaMask address
+            window.bc.contract().signGraduation.call("a",{
+              from: accounts[0]
+            }, (error, res) => {
+              if (error) {
+                console.debug("Signing Failed!");
+                reject(error);
+              }
+              console.debug(res);
+              resolve(res);
+            })
+            // .catch(error => { // mysterious undefined error
+            // reject(error)
+            // });
+          })
+      });
+    },
+    }// end methods
   }
 
 </script>

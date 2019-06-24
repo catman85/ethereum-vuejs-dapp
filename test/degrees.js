@@ -25,7 +25,7 @@ contract('Degress', function(accounts) {
     });
 
     it("Student shouldn't have a degree yet",function() {
-        return instance.signGraduation("a")
+        return instance.verifyGraduation("a")
         .then(assert.fail).catch(function(error) { // here we are expecting the exception
             assert(true);
         });

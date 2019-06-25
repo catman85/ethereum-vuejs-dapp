@@ -1,8 +1,8 @@
 <template>
   <div>
     <button class="btn btn-primary float-right mt-2" @click='reloadList'>Reload</button>
-    <button class="btn btn-primary float-right mt-2" @click='checkIfHashIsRegistered'>verify</button>
-    <button class="btn btn-primary float-right mt-2" @click='signGraduation'>sign</button>
+    <button class="btn btn-primary float-right mt-2" @click='checkIfHashIsRegistered("d")'>verify</button>
+    <button class="btn btn-primary float-right mt-2" @click='signGraduation("d")'>sign</button>
     <h1 class="title">User List</h1>
 
     <div class="clearfix"></div>
@@ -113,49 +113,53 @@
           } // end if
         }); // end totalUsers call
       },
-      checkIfHashIsRegistered() { // this works
+
+      /**
+       * @param {string} hash
+       * @return {void}
+       */
+      checkIfHashIsRegistered(hash) { // this works
         if (this.blockchainIsConnected()) {
-          let hash = "b";
           // console.debug(hash);
           window.bc.contract().verifyGraduation.call(hash, (error, bool) => {
-            if(error){
+            if (error) {
               console.debug(error);
             }
-              console.debug(bool);
-            })
-            // .catch(error => { // mysterious undefuned error
-            //   reject(error)
-            // });
+            console.debug(bool);
+          })
+          // .catch(error => { // mysterious undefuned error
+          //   reject(error)
+          // });
         }
       },
-    /**
-     * Check if the user is registered.
-     *
-     * @return {Promise}
-     */
-      signGraduation() {
-      return new Promise((resolve, reject) => {
-        window.bc.getAccounts()
-          .then(accounts => {
-            // console.debug(accounts);
-            // accounts[0] is the selected MetaMask address
-            window.bc.contract().signGraduation("b",{
-              from: accounts[0]
-            }, (error, res) => {
-              if (error) {
-                console.debug("Signing Failed!");
-                reject(error);
-              }
-              console.debug(res);
-              resolve(res);
+
+      /**
+       * @param {string} hash
+       * @return {Promise}
+       */
+      signGraduation(hash) { //only works when metamask poops the connect prompt ant the mozextension
+        return new Promise((resolve, reject) => {
+          window.bc.getAccounts()
+            .then(accounts => {
+              // console.debug(accounts);
+              // accounts[0] is the selected MetaMask address
+              window.bc.contract().signGraduation(hash, {
+                from: accounts[0]
+              }, (error, res) => {
+                if (error) {
+                  console.debug("Signing Failed!");
+                  reject(error);
+                }
+                console.debug(res);
+                resolve(res);
+              })
+              // .catch(error => { // mysterious undefined error
+              // reject(error)
+              // });
             })
-            // .catch(error => { // mysterious undefined error
-            // reject(error)
-            // });
-          })
-      });
-    },
-    }// end methods
+        });
+      },
+    } // end methods
   }
 
 </script>

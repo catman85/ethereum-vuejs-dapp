@@ -61,7 +61,7 @@ export default {
      *
      * @return {Promise}
      */
-    getProfessorIndex() { // will always return 0 since we can only use the main account?
+    getProfessorIndex() {
       return new Promise((resolve, reject) => {
         window.bc.getAccounts()
           .then(accounts => {
@@ -79,7 +79,7 @@ export default {
                 console.debug(res[1]);
               })
               resolve(res);
-            });
+            })
             // .catch(error => { // mysterious undefined error
             //   reject(error)
             // });

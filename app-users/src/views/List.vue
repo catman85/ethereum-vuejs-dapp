@@ -113,9 +113,9 @@
           } // end if
         }); // end totalUsers call
       },
-      checkIfHashIsRegistered() {
+      checkIfHashIsRegistered() { // this works
         if (this.blockchainIsConnected()) {
-          let hash = "a";
+          let hash = "b";
           // console.debug(hash);
           window.bc.contract().verifyGraduation.call(hash, (error, bool) => {
             if(error){
@@ -128,14 +128,18 @@
             // });
         }
       },
-
+    /**
+     * Check if the user is registered.
+     *
+     * @return {Promise}
+     */
       signGraduation() {
       return new Promise((resolve, reject) => {
         window.bc.getAccounts()
           .then(accounts => {
             // console.debug(accounts);
             // accounts[0] is the selected MetaMask address
-            window.bc.contract().signGraduation.call("a",{
+            window.bc.contract().signGraduation("b",{
               from: accounts[0]
             }, (error, res) => {
               if (error) {

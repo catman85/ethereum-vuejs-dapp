@@ -8,7 +8,7 @@
       <router-link tag="li" class="nav-link" to="/profile" exact v-show="isProfessor">
         <a>Sign a Degree</a>
       </router-link>
-      {{$store.getters.test}}
+      {{$store.getters.prof}}
       <li class="nav-link">
         <strong :class="connectedClass">
           {{ connectedText }}

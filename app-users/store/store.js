@@ -3,16 +3,26 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   state:{
-    test: 'hello'
+    isProf: false,
+    Prof: {
+      id: -1,
+      name: "",
+      address : ""
+    }
   },
   mutations: {
-    change(state, flavor) {
-      state.test = flavor
+    setProf(state, id, name, address) {
+      state.Prof.id = id;
+      state.Prof.name = name;
+      state.Prof.address = address;
     }
   },
   getters: {
-    test: state => state.test
+    isProf: state => state.isProf,
+    prof(state){
+      return state.Prof;
+    }
   }
 })

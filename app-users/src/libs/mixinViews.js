@@ -65,7 +65,7 @@ export default {
       return new Promise((resolve, reject) => {
         window.bc.getAccounts()
           .then(accounts => {
-            console.debug(accounts);
+            // console.debug(accounts);
             // accounts[0] is the selected MetaMask address
             window.bc.contract().getProfessorIndex.call({
               from: accounts[0]
@@ -75,11 +75,13 @@ export default {
                 reject(error);
               }
               let id = res.toNumber();
-              console.debug(id);
+              // console.debug(id);
               window.bc.contract().professors(id, (error, res) => {
                 let name = res[1];
-                console.debug(name);
-                this.setProf(id,name);
+                // console.debug(name);
+                // console.debug(accounts[0]);
+                this.setProf(id,name,accounts[0]);
+                console.debug(this.$store.getters.prof.address);
               })
               resolve(res);
             })
@@ -105,9 +107,10 @@ export default {
       });
     },
 
-    setProf(id,name){
+    setProf(id,name,address){
       // this.$store.commit('SET_PROF', id,name,"0x");
-      console.debug(this.$root.$data.SET_PROF);
+      // console.debug(this.$root.$data.SET_PROF);
+      this.$store.commit('setProf',id,name,address);
     },
 
     /**

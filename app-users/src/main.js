@@ -3,7 +3,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './routes';
-import { store } from './store/store';
+import store from '../store/store';
 
 window.Event = new Vue(); // global event
 

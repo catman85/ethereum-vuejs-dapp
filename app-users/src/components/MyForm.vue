@@ -4,15 +4,34 @@
 
       <div class="form-group">
         <label for="description">Name</label>
-        <input class="form-control" placeholder="Enter your name" type="text" v-model="userName">
+        <input class="form-control" placeholder="Enter name" type="text" v-model="userName">
       </div>
 
       <div class="form-group">
-        <label for="description">Status</label>
-        <input class="form-control" placeholder="Enter your status" type="text" v-model="userStatus">
+        <label for="description">Department</label>
+        <input class="form-control" placeholder="Enter department" type="text" v-model="department">
       </div>
 
-      <button class="btn btn-primary" :disabled="disableSubmit" @click="performSubmit">{{this.mode | capitalize}}</button>
+      <div class="form-group">
+        <label for="description">Grade</label>
+        <input class="form-control" placeholder="Enter grade" type="text" v-model="grade">
+      </div>
+      <!-- TODO: bootstraap date picker -->
+      <div class="form-group">
+        <div class='input-group date' id='datetimepicker1'>
+          <input type='text' class="form-control" />
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Date</label>
+        <input class="form-control" placeholder="Enter grade" type="text" v-model="grade">
+      </div>
+
+      <button class="btn btn-primary" :disabled="disableSubmit"
+        @click="performSubmit">{{this.mode | capitalize}}</button>
 
       <!-- <strong class="text-danger"></strong> -->
 
@@ -30,64 +49,81 @@
 </template>
 
 <script>
-import mixin from '../libs/mixinViews';
+  import mixin from '../libs/mixinViews';
+
+  // ATTENTION importing the client-side hash library 
+  import bcrypt from "bcryptjs"; //bcrypt
+  import crypto from "crypto-js"; //sha256
 
   export default {
     mixins: [mixin],
     name: 'MyForm',
     props: {
-        mode: String
+      mode: String
     },
     filters: {
-        capitalize(s){
-            return s.charAt(0).toUpperCase() + s.slice(1);
-        }
+      capitalize(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+      }
     },
     data() {
       return {
         userName: '', // variable binded with the input field: name
-        userStatus: '', // variable binded with the input field: status
-        // submitting: false, // true once the submit button is pressed
-        successMessage: false, // true when the user has been registered successfully
+        department: '', // variable binded with the input field: status
+        grade: 0,
 
+        successMessage: false, // true when the user has been registered successfully
         // tmoConn: null, // contain the intervalID given by setInterval
         // tmoReg: null, // contain the intervalID given by setInterval
         errorStr: null, // it shows the error message
-        hash: "hash-test"
+        hash: String,
+        date: String
       }
+    },
+    mounted() {
+      // BCRYPT too complicated
+      // var salt = bcrypt.genSaltSync(10);
+      // var hash = bcrypt.hashSync("test", salt);
+      // console.debug(hash);
+      // console.debug(bcrypt.compareSync("test", hash));
     },
     computed: {
       disableSubmit() {
         return (
           !this.userName.length ||
-          !this.userStatus.length ||
-          this.submitting ||
+          !this.department.length ||
           !this.blockchainIsConnected()
         );
       }
     },
     methods: {
       /**
-       * Perform the registration of the user when the submit button is pressed.
-       *
        * @return {void}
        */
       performSubmit() {
-        this.submitting = true;
-        this.errorStr = null;
-        this.successMessage = false;
+        //TODO: build the concat method
+        this.hash = this.sha256(this.data); //FIXME: temporary use bcrypt instead
 
-        this.hash = this.userName; //FIXME: temporary use bcrypt instead
-
-        if(this.mode == "sign"){
-            this.$emit('sign',this.hash);
+        if (this.mode == "sign") {
+          this.$emit('sign', this.hash); // calls contract function in Sign.vue
         }
 
-        if(this.mode == "verify"){
-            this.$emit('verify',this.hash);
+        if (this.mode == "verify") {
+          this.$emit('verify', this.hash); // calls contract funcion in Verify.vue
         }
         // window.bc.getMainAccount()
         //   .then(address => this.performUserRegistration(address));
+      },
+
+      concat() {
+
+      },
+
+      sha256(data) {
+        let Crypto = require('crypto-js')
+        let res = Crypto.SHA256(data).toString();
+        console.debug(res);
+        return res;
       },
 
       /**

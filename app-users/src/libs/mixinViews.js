@@ -74,9 +74,12 @@ export default {
                 console.debug("You are Not a Professor!");
                 reject(error);
               }
-              console.debug(res.toNumber());
-              window.bc.contract().professors(res.toNumber(), (error, res) => {
-                console.debug(res[1]);
+              let id = res.toNumber();
+              console.debug(id);
+              window.bc.contract().professors(id, (error, res) => {
+                let name = res[1];
+                console.debug(name);
+                this.setProf(id,name);
               })
               resolve(res);
             })
@@ -100,6 +103,11 @@ export default {
         // })
         // .catch(error => reject(error));
       });
+    },
+
+    setProf(id,name){
+      // this.$store.commit('SET_PROF', id,name,"0x");
+      console.debug(this.$root.$data.SET_PROF);
     },
 
     /**

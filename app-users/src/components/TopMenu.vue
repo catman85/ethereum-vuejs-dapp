@@ -1,14 +1,17 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <ul class="navbar-nav">
       <router-link tag="li" class="nav-link" to="/" exact>
-        <a>Search for a Degree</a>
+        <a>Home</a>
       </router-link>
 
-      <router-link tag="li" class="nav-link" to="/profile" exact v-show="isProfessor">
+      <router-link tag="li" class="nav-link" to="/about" exact>
+        <a>About</a>
+      </router-link>
+
+      <router-link tag="li" class="nav-link" to="/sign" exact v-show="isProfessor">
         <a>Sign a Degree</a>
       </router-link>
-      {{$store.getters.prof}}
       <li class="nav-link">
         <strong :class="connectedClass">
           {{ connectedText }}
@@ -28,9 +31,9 @@
     data() {
       return {
         tmoConn: null, // contain the intervalID given by setInterval
-        tmoReg: null, // contain the intervalID given by setInterval
+        tmoCheck: null, // contain the intervalID given by setInterval
         connectedClass: 'text-danger', // bootstrap class for the connection status (red when not connected, green when connected)
-        connectedText: 'Not Connected',
+        connectedText: 'Connecting...',
         isProfessor: false, // true when the user that is visiting the page is registered
       }
     },
@@ -52,7 +55,7 @@
       checkIfConnected() {
         this.tmoConn = setInterval(() => {
           // checking first if the connection with the blockchain is established
-          if (this.blockchainIsConnected()) {
+          if (this.blockchainIsConnected()) { // mixinViews
             // stopping the setInterval
             clearInterval(this.tmoConn);
 
@@ -72,31 +75,27 @@
         this.connectedText = 'Connected';
       },
 
-      showLink(){
-        this.isProfessor = true;
+      //Check if the user is registered calling the function of the smart contract getProfessorIndex.
+      checkIfUserIsProfessor() {
+        let attempts = 2;
+        let count = 0;
+
+        this.tmoCheck = setInterval(() => {
+          if(count == attempts){
+            clearInterval(this.tmoCheck); // stop looping
+          }
+          console.debug(count);
+          if (this.blockchainIsConnected() && this.$store.isProf) {
+            clearInterval(this.tmoCheck); // stop looping
+            this.showLink();
+          }
+          count++;
+        }, 500);
       },
 
-      /**
-       * Check if the user is registered calling the function of the smart contract getProfessorIndex.
-       */
-      checkIfUserIsProfessor() {
-        //   setInterval(() => {
-              if (this.blockchainIsConnected()) {
-                    // stopping the setInterval
-                    // clearInterval(this.tmoConn);
-                  console.debug("chk");
-                  this.getProfessorIndex() //from ../libs/mixinViews/
-                  .then((error, res) => {
-                      if (res) {
-                        //   console.debug(res);
-                          this.showLink();
-                      }
-                      console
-                  })
-                  .catch(error => console.log(error))
-              }
-        // }, 500);
-      }
+      showLink() {
+        this.isProfessor = true;
+      },
     }
   }
 

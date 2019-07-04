@@ -7,13 +7,15 @@ export default new Vuex.Store({
   state:{
     isProf: false,
     Prof: {
-      id: -1,
-      name: "",
-      address : ""
+      id: Number,
+      name: String,
+      address : String
     }
   },
   mutations: {
-    setProf(state, id, name, address) {
+    // ATTENTION only expects 2 arguments
+    setProf(state, {id, name, address}) {
+      console.debug("Identified... "+ id,name,address);
       state.Prof.id = id;
       state.Prof.name = name;
       state.Prof.address = address;

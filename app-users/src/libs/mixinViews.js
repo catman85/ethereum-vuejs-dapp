@@ -36,7 +36,7 @@ export default {
             if (error) {
               this.bcConnected = false;
 
-              this.showConnectionErrorMessage(error);
+              this.showConnectionErrorMessage(error); //legit
             } else {
               // calling a smart contract function in order to check the contract address
               // is correct. NOTE: here you might be connected successfully.
@@ -47,12 +47,14 @@ export default {
                   this.bcConnected = this.blockchainIsConnected();
                 })
                 .catch(error => {
-                  this.showConnectionErrorMessage(error);
+                  // this.showConnectionErrorMessage(error);  //non-legit we are simply not a prof
                   this.bcSmartContractAddressError = true;
                 });
             }
           })
-          .catch(error => this.showConnectionErrorMessage(error));
+          .catch(error => {
+            // this.showConnectionErrorMessage(error) //not-sure
+          });
       } // end if (window.bc == undefined)
     },
 
@@ -78,10 +80,7 @@ export default {
               // console.debug(id);
               window.bc.contract().professors(id, (error, res) => {
                 let name = res[1];
-                // console.debug(name);
-                // console.debug(accounts[0]);
                 this.setProf(id,name,accounts[0]);
-                console.debug(this.$store.getters.prof.address);
               })
               resolve(res);
             })
@@ -110,7 +109,8 @@ export default {
     setProf(id,name,address){
       // this.$store.commit('SET_PROF', id,name,"0x");
       // console.debug(this.$root.$data.SET_PROF);
-      this.$store.commit('setProf',id,name,address);
+      this.$store.isProf = true;
+      this.$store.commit('setProf',{id,name,address});
     },
 
     /**

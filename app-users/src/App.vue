@@ -2,11 +2,7 @@
     <div>
         <top-menu></top-menu>
 
-        <h2 class="p-4" v-show="!bcConnected && !bcConnectionError">
-            Connecting...
-        </h2>
-
-        <div class="p-4" v-show="bcConnected && !bcConnectionError">
+        <div class="p-4">
             <router-view></router-view>
         </div>
 

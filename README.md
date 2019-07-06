@@ -6,7 +6,7 @@ This is a simple decentralized application built using **Ethereum** blockchain a
 - NPM version 5.8.0
 - TRUFFLE verson 4.1.5
 - Ganache or your private network
-- Metamask: not mandatory but better if you want to register more users
+- Metamask
 
 # Quick Installation WSL
 
@@ -49,7 +49,7 @@ Your application is running here: http://localhost:8080
 ```
 8) Open the browser, go to the URL shown by your terminal and play with the DApp!
 
-**NOTE:** if you want to try to add more user profiles you have to install metamask in your browser, then import the accounts into metamask and finally change account on metamask in order to register a new user. You can use the same seed in Ganache and Metamask for convenience.
+**NOTE:** You can use the same seed in Ganache and Metamask for convenience.
 
 To create more accounts (pairs of public and private keys) in MetaMask: (they all derive from the same seed.)
 
@@ -70,6 +70,8 @@ constructor() public {
     ...
 }
 ~~~
+    OR use this seed: "save lyrics plate shrimp warm credit december salon velvet announce outer hamster"
+
 2) fire up your ganache workspace and then from the project directory run,
 
 ```sh
@@ -115,7 +117,7 @@ It is very convenient to share the same accounts in Ganache/MetaMask from multip
 4) Copy and paste that url to the MetaMask field and refresh your frontend.
 5) Boom, you are connected!
 
-# Development Quickstart 
+# Development Quickstart (Linux & Mac)
 Make sure you have installed expect and xterm in your machine.
 ```sh
 apt-get install expect xterm
@@ -126,7 +128,30 @@ chmod +x start.h
 ```
 
 After opening the Ganache GUI, execute:
-
+```sh
 **./start.sh**
+```
 
-This little script will connect truffle with ganache migrate, test your contracts and run the frontend part of the app.
+This little script will :
+- connect truffle with ganache migrate
+- test your contracts
+- copy the compiled contracts 
+- run the frontend part of the app
+
+# Development Quickstart (Windows WSL)
+Make sure you have installed expect in your machine. And you are located in the project's root directory
+```sh
+apt-get install expect
+```
+Run: 
+```sh
+expect trufflexp.exp
+```
+After the first command is done, in another terminal:
+```sh
+cp build/contracts/Degrees.json app-users/src/assets/Degrees.json
+```
+Finally, in another terminal:
+```sh
+cd app-users/ && npm run serve
+```

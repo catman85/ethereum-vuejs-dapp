@@ -2,41 +2,43 @@
   <div>
     <Slide right>
       <!-- <nav class="navbar navbar-expand-sm navbar-light bg-light"> -->
-            <ul class="navbar-nav">
-      <router-link tag="li" class="nav-link" to="/" exact>
-        <a>Home / Verify</a>
-      </router-link>
+      <ul class="navbar-nav">
+        <router-link tag="li" class="nav-link" to="/" exact>
+          <a>Home / Verify</a>
+        </router-link>
 
-      <!-- v-show="isProfessor" -->
-      <router-link v-if="isProfessor" tag="li" class="nav-link" to="/sign" exact>
-        <a>Sign a Degree</a>
-      </router-link>
+        <!-- v-show="isProfessor" -->
+        <router-link v-if="isProfessor" tag="li" class="nav-link" to="/sign" exact>
+          <a>Sign a Degree</a>
+        </router-link>
 
-      <router-link tag="li" class="nav-link" to="/about" exact>
-        <a>About</a>
-      </router-link>
+        <router-link tag="li" class="nav-link" to="/about" exact>
+          <a>About</a>
+        </router-link>
 
-      <li class="nav-link">
-        <strong :class="connectedClass">
-          {{ connectedText }}
-        </strong>
-      </li>
-    </ul>
-  <!-- </nav> -->
+        <li class="nav-link">
+          <strong :class="connectedClass">
+            {{ connectedText }}
+          </strong>
+        </li>
+      </ul>
+      <!-- </nav> -->
     </Slide>
     <!-- <br><br> -->
-    </div>
+  </div>
 </template>
 
 <script>
   // importing common function
   import mixin from '../libs/mixinViews';
-  import { Slide } from 'vue-burger-menu';
+  import {
+    Slide
+  } from 'vue-burger-menu';
 
   export default {
     mixins: [mixin],
     components: {
-        Slide // Register your component
+      Slide // Register your component
     },
 
     data() {
@@ -50,10 +52,6 @@
     },
 
     created() {
-      // when the event userregistered is fired (from the view Register.vue)
-      // it runs the function checkUntilUserIsRegistered
-      // Event.$on('userregistered', this.checkUntilUserIsRegistered);
-
       this.checkIfConnected();
       this.checkIfUserIsProfessor();
     },
@@ -72,11 +70,6 @@
 
             // showing the connected message on the top bar and setting the class too
             this.goGreen();
-
-            // commented because it through an error
-            // this.isRegistered()
-            // .then(res => this.userIsRegistered = res)
-            // .catch(error => console.log(error));
           }
         }, 500);
       },
@@ -92,7 +85,7 @@
         let count = 0;
 
         this.tmoCheck = setInterval(() => {
-          if(count == attempts){
+          if (count == attempts) {
             clearInterval(this.tmoCheck); // stop looping
           }
           if (this.blockchainIsConnected() && this.$store.isProf) {
@@ -112,14 +105,18 @@
 </script>
 
 <style>
-  .bm-overlay{
+  .bm-overlay {
     background-color: white;
   }
-  .bm-menu{
-    background-color: rgba(47,79,79, 0.2)
+
+  .bm-menu {
+    background-color: rgba(47, 79, 79, 0.2)
   }
-  a,strong{
+
+  a,
+  strong {
     white-space: nowrap;
     /* color:red; */
   }
+
 </style>

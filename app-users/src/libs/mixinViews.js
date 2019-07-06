@@ -1,11 +1,10 @@
 import BcExplorer from './BcExplorer'
-// import UsersContract from '../assets/Users.json';
 import DegreesContract from '../assets/Degrees.json';
 
 export default {
   data() {
     return {
-      bcConnected: false, // true when the connection with the blockchain is established, plus the contract ABI + address is correctli initialized
+      bcConnected: false, // true when the connection with the blockchain is established, plus the contract ABI + address is correctly initialized
       bcConnectionError: false,
       errorConnectionMessage: null,
       bcSmartContractAddressError: false
@@ -84,14 +83,8 @@ export default {
               })
               resolve(res);
             })
-            // .catch(error => { // mysterious undefined error
-            //   reject(error)
-            // });
   
           })
-          // .catch(error => {
-          //   reject(error)
-          // });
 
         // Original
         // window.bc.getMainAccount()

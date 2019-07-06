@@ -3,7 +3,7 @@
 <footer class="page-footer font-small blue pt-4">
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© {{this.getCurrentYear()}} Copyright:
+  <div class="footer-copyright text-center py-3">{{this.getCurrentYear()}}
     <a href="https://github.com/catman85"> Jimmy </a>
   </div>
   <!-- Copyright -->

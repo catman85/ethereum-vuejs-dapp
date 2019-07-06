@@ -22,7 +22,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    isProf: state => state.isProf,
+    isProf: state => state.isProf, // anonymous function
     prof(state){
       return state.Prof;
     }

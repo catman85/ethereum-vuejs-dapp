@@ -27,24 +27,10 @@
     mixins: [mixin],
 
     data() {
-      return {
-      }
-    },
-
-    created() {
-      // it checks every 500ms if the user is registered until the connection is established
-      //   this.redirectIfUserRegistered();
-      // console.debug(this.profName);
+      return {}
     },
 
     computed: {
-      submittedC() {
-        console.debug("not submitted changes");
-        return this.submitted;
-      },
-      resultC() {
-        return this.result;
-      },
       profName() {
         return this.$store.state.Prof.name
       },
@@ -72,13 +58,13 @@
                 from: accounts[0]
               }, (error, res) => {
                 if (error) {
-                  this.$swal('You can\'t sign the same student more than once','Error','error');
+                  this.$swal('You can\'t sign the same student more than once', 'Error', 'error');
                   console.debug("Signing Failed!");
                   reject(error);
                 }
                 // Use sweetalert2
-                if(!error){
-                  this.$swal('Successfully Signed Degree','Success','success');
+                if (!error) {
+                  this.$swal('Successfully Signed Degree', 'Success', 'success');
                 }
                 console.debug(res);
                 resolve(res);
@@ -88,96 +74,7 @@
               // });
             })
         });
-      },
-      hide(){
-        this.submitted = false;
       }
-
-      /**
-       * Perform the user registration cannling the smart contract
-       * function registerUser.
-       *
-       * @param {string} address
-       * @return {void}
-       */
-      //   performUserRegistration(address) {
-      //     window.bc.contract().registerUser(
-      //       this.userName,
-      //       this.userStatus, {
-      //         from: address,
-      //         gas: 800000
-      //       },
-      //       (err, txHash) => {
-      //         this.submitting = false;
-
-      //         if (err) {
-      //           this.showErrorMessage(err);
-      //         } else {
-      //           this.successMessage = true;
-
-      //           // it emits a global event in order to update the top menu bar
-      //           Event.$emit('userregistered', txHash);
-
-      //           // the transaction was submitted and the user will be redirected to the
-      //           // profile page once the block will be mined
-      //           this.redirectWhenBlockMined();
-      //         }
-      //       }
-      //     )
-      //   },
-
-      /**
-       * Check if the user visitng this page is registered: if the user is already
-       * registered he will be redirected to the Profile page.
-       *
-       * @return {void}
-       */
-      //   redirectIfUserRegistered() {
-      //     this.tmoConn = setInterval(() => {
-      //       // checking first the connection
-      //       if (this.blockchainIsConnected()) {
-      //         // stopping the interval
-      //         clearInterval(this.tmoConn);
-
-      //         // calling the smart contract
-      //         this.isRegistered().then(res => {
-      //           if (res) {
-      //             // redirecting to the profile page
-      //             this.$router.push("profile");
-      //           }
-      //         });
-      //       }
-      //     }, 500);
-      //   },
-
-      /**
-       * Once the user submitted his registration this funciton checks every 1000 ms
-       * if the registration is successfully. Once the user is registered he will be
-       * redirected to the profile page.
-       *
-       * NOTE: in order to check if the user has been registered successfully the
-       * function has to check several time because the block can take several
-       * minutes to be mined (depending on the the blockchain you are using).
-       *
-       * @return {void}
-       */
-      //   redirectWhenBlockMined() {
-      //     this.tmoReg = setInterval(() => {
-      //       if (this.blockchainIsConnected()) {
-      //         this.isRegistered()
-      //           .then(res => {
-      //             if (res) {
-      //               // stopping the setInterval
-      //               clearInterval(this.tmoReg);
-
-      //               // redirecting the user to the profile page
-      //               this.$router.push("profile");
-      //             }
-      //           })
-      //           .catch(error => this.showErrorMessage(error));
-      //       }
-      //     }, 1000);
-      //   }
     }
   }
 

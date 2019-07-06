@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Profile from '@/views/Profile';
 import Verify from '@/views/Verify';
 import Sign from '@/views/Sign';
 import About from '@/views/About';
@@ -18,11 +17,6 @@ export default new Router({
             path: '/about',
             name: 'About',
             component: About
-        },
-        {
-            path: '/profile',
-            name: 'Profile',
-            component: Profile
         },
         {
             path: '/sign',

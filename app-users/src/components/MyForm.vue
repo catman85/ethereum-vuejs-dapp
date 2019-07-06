@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-5 form">
 
       <div class="form-group">
         <label for="description">Name</label>
@@ -18,22 +18,12 @@
       </div>
       <!-- TODO: bootstraap date picker -->
       <div class="form-group">
-        <div class='input-group date' id='datetimepicker1'>
-          <input type='text' class="form-control" />
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-          </span>
-        </div>
+        <label for="description">Graduation Date</label>
+        <date-picker v-model="date" :config="options"></date-picker>
       </div>
-      <div class="form-group">
-        <label for="description">Date</label>
-        <input class="form-control" placeholder="Enter grade" type="text" v-model="grade">
-      </div>
-
-      <button class="btn btn-primary" :disabled="disableSubmit"
+      <br>
+      <button class="col btn btn-primary" :disabled="disableSubmit"
         @click="performSubmit">{{this.mode | capitalize}}</button>
-
-      <!-- <strong class="text-danger"></strong> -->
 
       <div v-show="errorStr" class="alert alert-danger mt-3" role="alert">
         {{ errorStr }}
@@ -41,9 +31,9 @@
         <small>Check the browser console for more details.</small>
       </div>
 
-      <div v-show="successMessage" class="alert alert-success mt-3" role="alert">
+      <!-- <div v-show="successMessage" class="alert alert-success mt-3" role="alert">
         <strong>Success!</strong>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -55,11 +45,18 @@
   import bcrypt from "bcryptjs"; //bcrypt
   import crypto from "crypto-js"; //sha256
 
+  import 'bootstrap/dist/css/bootstrap.css';
+  import datePicker from 'vue-bootstrap-datetimepicker';
+  import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+
   export default {
     mixins: [mixin],
     name: 'MyForm',
     props: {
       mode: String
+    },
+    components: {
+      datePicker
     },
     filters: {
       capitalize(s) {
@@ -70,14 +67,34 @@
       return {
         userName: '', // variable binded with the input field: name
         department: '', // variable binded with the input field: status
-        grade: 0,
+        grade: '',
+        date: new Date(),
 
-        successMessage: false, // true when the user has been registered successfully
+        options: {
+          format: 'DD/MM/YYYY',
+          useCurrent: false,
+        },
+
+        // successMessage: false, // true when the user has been registered successfully
         // tmoConn: null, // contain the intervalID given by setInterval
         // tmoReg: null, // contain the intervalID given by setInterval
         errorStr: null, // it shows the error message
+        data: String,
         hash: String,
-        date: String
+      }
+    },
+    watch:{
+      userName: function(){
+        this.$emit('hide');
+      },
+      department: function(){
+        this.$emit('hide');
+      },
+      grade: function(){
+        this.$emit('hide');
+      },
+      date: function(){
+        this.$emit('hide');
       }
     },
     mounted() {
@@ -102,6 +119,7 @@
        */
       performSubmit() {
         //TODO: build the concat method
+        this.concat();
         this.hash = this.sha256(this.data); //FIXME: temporary use bcrypt instead
 
         if (this.mode == "sign") {
@@ -116,13 +134,14 @@
       },
 
       concat() {
-
+        this.data = this.userName+this.department+this.department+this.date;
+        console.debug("DATA: ",this.data);
       },
 
       sha256(data) {
         let Crypto = require('crypto-js')
         let res = Crypto.SHA256(data).toString();
-        console.debug(res);
+        console.debug("HASH: ",res);
         return res;
       },
 

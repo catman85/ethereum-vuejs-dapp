@@ -4,34 +4,6 @@
 
     <MyForm mode="verify" @verify="checkIfHashIsRegistered"></MyForm>
 
-    <!-- <div class="clearfix"></div>
-
-    <h2 v-show="!bcConnected">Not connect to the blockchain: please wait.</h2>
-
-    <h2 v-show="(isLoading && bcConnected)">Loading...</h2>
-
-    <table class="table table-striped" v-show="!isLoading">
-      <thead class="thead-dark">
-        <tr>
-          <th>User ID</th>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Address</th>
-          <th>Created At</th>
-          <th>Updated At</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in users" :key="user">
-          <td>{{ user[0].toNumber() }}</td>
-          <td>{{ user[1] }}</td>
-          <td>{{ toAscii(user[2]) }}</td>
-          <td>{{ user[3] }}</td>
-          <td>{{ toDate( user[4].toNumber() ) }}</td>
-          <td>{{ toDate( user[5].toNumber() ) }}</td>
-        </tr>
-      </tbody>
-    </table> -->
   </div>
 </template>
 
@@ -41,7 +13,9 @@
   import MyForm from '@/components/MyForm';
 
   export default {
-    components: {MyForm},
+    components: {
+      MyForm,
+    },
     mixins: [mixin],
 
     data() {
@@ -60,13 +34,21 @@
       // this.checkIfHashIsRegistered("a");
       // }, 1000);
     },
-
+    computed: {
+      submittedC() {
+        return this.submitted;
+      },
+      resultC() {
+        return this.result;
+      },
+    },
     methods: {
-        /**
+      /**
        * @param {string} hash
        * @return {void}
        */
       checkIfHashIsRegistered(hash) { // this works
+        this.submitted = false;
         if (this.blockchainIsConnected()) {
           // console.debug(hash);
           window.bc.contract().verifyGraduation.call(hash, (error, bool) => {
@@ -74,6 +56,12 @@
               console.debug(error);
             }
             console.debug(bool);
+
+            if(bool){
+              this.$swal('This Person owns a Degree','Success','success');
+            }else{
+              this.$swal('This Person doesn\'t own a Degree','Error','error');
+            }
           })
           // .catch(error => { // mysterious undefuned error
           //   reject(error)

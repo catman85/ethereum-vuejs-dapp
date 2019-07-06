@@ -1,32 +1,43 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <ul class="navbar-nav">
+  <div>
+    <Slide right>
+      <!-- <nav class="navbar navbar-expand-sm navbar-light bg-light"> -->
+            <ul class="navbar-nav">
       <router-link tag="li" class="nav-link" to="/" exact>
-        <a>Home</a>
+        <a>Home / Verify</a>
+      </router-link>
+
+      <!-- v-show="isProfessor" -->
+      <router-link v-if="isProfessor" tag="li" class="nav-link" to="/sign" exact>
+        <a>Sign a Degree</a>
       </router-link>
 
       <router-link tag="li" class="nav-link" to="/about" exact>
         <a>About</a>
       </router-link>
 
-      <router-link tag="li" class="nav-link" to="/sign" exact v-show="isProfessor">
-        <a>Sign a Degree</a>
-      </router-link>
       <li class="nav-link">
         <strong :class="connectedClass">
           {{ connectedText }}
         </strong>
       </li>
     </ul>
-  </nav>
+  <!-- </nav> -->
+    </Slide>
+    <!-- <br><br> -->
+    </div>
 </template>
 
 <script>
   // importing common function
   import mixin from '../libs/mixinViews';
+  import { Slide } from 'vue-burger-menu';
 
   export default {
     mixins: [mixin],
+    components: {
+        Slide // Register your component
+    },
 
     data() {
       return {
@@ -72,7 +83,7 @@
 
       goGreen() {
         this.connectedClass = 'text-success';
-        this.connectedText = 'Connected';
+        this.connectedText = 'Connected to BC';
       },
 
       //Check if the user is registered calling the function of the smart contract getProfessorIndex.
@@ -84,7 +95,6 @@
           if(count == attempts){
             clearInterval(this.tmoCheck); // stop looping
           }
-          console.debug(count);
           if (this.blockchainIsConnected() && this.$store.isProf) {
             clearInterval(this.tmoCheck); // stop looping
             this.showLink();
@@ -102,4 +112,14 @@
 </script>
 
 <style>
+  .bm-overlay{
+    background-color: white;
+  }
+  .bm-menu{
+    background-color: rgba(47,79,79, 0.2)
+  }
+  a,strong{
+    white-space: nowrap;
+    /* color:red; */
+  }
 </style>

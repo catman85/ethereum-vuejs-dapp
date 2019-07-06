@@ -8,7 +8,7 @@ This is a simple decentralized application built using **Ethereum** blockchain a
 - Ganache or your private network
 - Metamask
 
-# Quick Installation WSL
+# Installation
 
 1) ```sh
    sudo npm install truffle -g
@@ -118,6 +118,8 @@ It is very convenient to share the same accounts in Ganache/MetaMask from multip
 5) Boom, you are connected!
 
 # Development Quickstart (Linux & Mac)
+Open Ganache UI
+
 Make sure you have installed expect and xterm in your machine.
 ```sh
 apt-get install expect xterm
@@ -139,6 +141,8 @@ This little script will :
 - run the frontend part of the app
 
 # Development Quickstart (Windows WSL)
+Open Ganache UI.
+
 Make sure you have installed expect in your machine. And you are located in the project's root directory
 ```sh
 apt-get install expect

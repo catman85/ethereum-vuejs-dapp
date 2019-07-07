@@ -110,7 +110,7 @@
   }
 
   .bm-menu {
-    background-color: rgba(47, 79, 79, 0.2)
+    background-color: rgba(231, 230, 230, 0.884)
   }
 
   a,

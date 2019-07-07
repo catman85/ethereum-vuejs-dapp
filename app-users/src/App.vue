@@ -1,7 +1,7 @@
 <template>
   <div>
-    <vue-particles color="#dedede" :particleOpacity="0.8" :particlesNumber="80" shapeType="edge" :particleSize="7"
-      linesColor="#dedede" :linesWidth="1" :lineLinked="true" :lineOpacity="0.7" :linesDistance="130" :moveSpeed="1">
+    <vue-particles color="#dedede" :particleOpacity="0.9" :particlesNumber="90" shapeType="edge" :particleSize="9"
+      linesColor="#dedede" :linesWidth="2" :lineLinked="true" :lineOpacity="0.8" :linesDistance="190" :moveSpeed="3">
     </vue-particles>
     <!-- :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push" -->
     <top-menu></top-menu>

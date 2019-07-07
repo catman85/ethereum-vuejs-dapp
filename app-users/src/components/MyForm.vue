@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-5 form">
+    <div class="col-md-7 form">
 
       <div class="form-group">
         <label for="description">Name</label>
@@ -21,6 +21,16 @@
         <label for="description">Graduation Date</label>
         <date-picker v-model="date" :config="options"></date-picker>
       </div>
+      <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="custom-control custom-checkbox col-md-4">
+          <input type="checkbox" class="custom-control-input" id="defaultUnchecked" v-model="toggle">
+          <label class="custom-control-label" for="defaultUnchecked">Use pass</label>
+        </div>
+        <div class="col-md-7">
+          <input class="form-control" placeholder="Secret Password" :disabled="!disablePass" type="text" v-model="pass">
+        </div>
+      </div>
       <br>
       <button class="col btn btn-primary" :disabled="disableSubmit"
         @click="performSubmit">{{this.mode | capitalize}}</button>
@@ -30,10 +40,6 @@
         <br>
         <small>Check the browser console for more details.</small>
       </div>
-
-      <!-- <div v-show="successMessage" class="alert alert-success mt-3" role="alert">
-        <strong>Success!</strong>
-      </div> -->
     </div>
   </div>
 </template>
@@ -69,6 +75,8 @@
         department: '', // variable binded with the input field: status
         grade: '',
         date: new Date(),
+        pass: '',
+        toggle: false,
 
         options: {
           format: 'DD/MM/YYYY',
@@ -83,17 +91,19 @@
         hash: String,
       }
     },
-    watch:{
-      userName: function(){
+    watch: {
+      toggle: function(){
+      },
+      userName: function () {
         this.$emit('hide');
       },
-      department: function(){
+      department: function () {
         this.$emit('hide');
       },
-      grade: function(){
+      grade: function () {
         this.$emit('hide');
       },
-      date: function(){
+      date: function () {
         this.$emit('hide');
       }
     },
@@ -109,8 +119,14 @@
         return (
           !this.userName.length ||
           !this.department.length ||
+          !this.date.length ||
+          !this.grade.length ||
+          (this.toggle && !this.pass.length) ||
           !this.blockchainIsConnected()
         );
+      },
+      disablePass() {
+        return this.toggle;
       }
     },
     methods: {
@@ -134,14 +150,17 @@
       },
 
       concat() {
-        this.data = this.userName+this.department+this.department+this.date;
-        console.debug("DATA: ",this.data);
+        this.data = this.userName + this.department + this.department + this.date;
+        if(this.toggle){
+          this.data += this.pass;
+        }
+        console.debug("DATA: ", this.data);
       },
 
       sha256(data) {
         let Crypto = require('crypto-js')
         let res = Crypto.SHA256(data).toString();
-        console.debug("HASH: ",res);
+        console.debug("HASH: ", res);
         return res;
       },
 
@@ -164,3 +183,10 @@
   }
 
 </script>
+
+<style lang="scss">
+  .custom-control {
+    text-align: center;
+  }
+
+</style>

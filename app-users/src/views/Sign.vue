@@ -6,7 +6,7 @@
       <h2>ID: {{this.profId}}</h2>
     </div>
     <br>
-    <MyForm mode="sign" @hide="hide" @sign="signGraduation"></MyForm>
+    <MyForm mode="sign" @sign="signGraduation"></MyForm>
     <br>
     <div class="info">
       <h3>Your Address: </h3>
